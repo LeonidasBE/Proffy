@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { View, Image, Text } from 'react-native'
 
-import {BorderlessButton} from 'react-native-gesture-handler'
+import { BorderlessButton } from 'react-native-gesture-handler'
 
 import backIcon from '../../assets/images/icons/back.png'
 import logoImg from '../../assets/images/logo.png'
@@ -9,33 +9,41 @@ import logoImg from '../../assets/images/logo.png'
 import styles from './styles'
 import { useNavigation } from '@react-navigation/native'
 
-interface PageHeaderProps{
+interface PageHeaderProps {
     title: string,
+    headerRight?: ReactNode;
 }
 
-const PageHeader: React.FC<PageHeaderProps> = ({title}) => {
+const PageHeader: React.FC<PageHeaderProps> = ({ title, children, headerRight }) => {
 
-    const {navigate} = useNavigation()
+    const { navigate } = useNavigation()
 
-    function handleGoBack(){
+    function handleGoBack() {
         navigate('Landing')
     }
 
-    return(
-    <View style={styles.container}>
-        <View style={styles.topBar}>
-            <BorderlessButton onPress={handleGoBack}>
-                <Image source={backIcon} resizeMode='contain' />
-            </BorderlessButton>
-            
-            <Image source={logoImg} resizeMode='contain' />
-        </View>
+    return (
+        <View style={styles.container}>
+            <View style={styles.topBar}>
+                <BorderlessButton onPress={handleGoBack}>
+                    <Image source={backIcon} resizeMode='contain' />
+                </BorderlessButton>
 
-        <Text style={styles.title}>
-            {title}
-        </Text>
+                <Image source={logoImg} resizeMode='contain' />
+            </View>
 
-    </View>)
+            <View style={styles.header}>
+
+                <Text style={styles.title}>
+                    {title}
+                </Text>
+
+                {headerRight}
+            </View>
+
+            {children}
+
+        </View>)
 }
 
 export default PageHeader
